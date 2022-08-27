@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+# express-video
+>>>>>>> 904df7857023ebb132d19f2ca361b2d42e9b10dd
 # express-video接口文档
 
 ## 接口说明
@@ -67,4 +71,7 @@ method: `post`
     ]
 }
 ```
+<<<<<<< HEAD
 
+=======
+>>>>>>> 904df7857023ebb132d19f2ca361b2d42e9b10dd

@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator')
 const validate = require('./errorBack') 
 const { User } = require('../../model/index')
 
+// 用户注册验证
 module.exports.register = validate([
   body('username')
     .notEmpty().withMessage('用户名不能为空').bail()
@@ -24,4 +25,13 @@ module.exports.register = validate([
         return Promise.reject('手机号已被注册')
       }
     }).bail(),
+])
+
+// 用户登录验证
+module.exports.login = validate([
+  body('email')
+    .notEmpty().withMessage('邮箱不能为空').bail()
+    .isEmail().withMessage('邮箱格式不正确').bail(),
+  body('password')
+    .notEmpty().withMessage('密码不能为空').bail() 
 ])

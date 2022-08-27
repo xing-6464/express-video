@@ -1,12 +1,16 @@
 const mongoose = require('mongoose')
 
+const { mongopath } = require('../config/config.default')
+
 async function main() {
-  mongoose.connect('mongodb://localhost:27017/express-video')
+  mongoose.connect(mongopath)
 }
 
-main().then(res => {
+main()
+.then(res => {
   console.log('mongo链接成功')
-}).catch(err => {
+})
+.catch(err => {
   console.log(err)
   console.log('mongo链接失败')
 })

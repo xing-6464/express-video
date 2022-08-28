@@ -29,6 +29,11 @@ exports.list = async (req, res) => {
   res.send('/user-list')
 }
 
+exports.update = async (req, res) => {
+  const dbBack = await User.findByIdAndUpdate(req.user.userinfo._id, req.body, { new: true })
+  res.status(202).json({ user: dbBack })
+}
+
 exports.delete = async (req, res) => {
   
 }

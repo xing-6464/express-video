@@ -44,3 +44,30 @@ module.exports.login = validate([
   body('password')
     .notEmpty().withMessage('密码不能为空').bail() 
 ])
+
+// 用户修改
+module.exports.update = validate([
+  body('email')
+    .custom(async val => {
+      const emailValidate = await User.findOne({ email: val })
+      if (emailValidate) {
+        return Promise.reject('邮箱已注册')
+      }
+    }).bail(),
+  body('username')
+    .custom(async val => {
+      const usernameValidate = await User.findOne({ username: val })
+      if (usernameValidate) {
+        return Promise.reject('用户名已注册')
+      }
+    })
+    .bail(),
+  body('phone')
+    .custom(async val => {
+      const phoneValidate = await User.findOne({ phone: val })
+      if (phoneValidate) {
+        return Promise.reject('手机已注册')
+      }
+    })
+    .bail()
+])

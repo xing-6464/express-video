@@ -1,3 +1,8 @@
+const fs = require('fs')
+
+const { promisify } = require('util')
+const rename = promisify(fs.rename)
+
 const { User } = require('../model/index')
 
 const { createToken } = require('../util/jwt.js')
@@ -29,9 +34,36 @@ exports.list = async (req, res) => {
   res.send('/user-list')
 }
 
+// 用户修改
 exports.update = async (req, res) => {
   const dbBack = await User.findByIdAndUpdate(req.user.userinfo._id, req.body, { new: true })
   res.status(202).json({ user: dbBack })
+}
+
+// 用户头像上传
+exports.headimg = async (req, res) => {
+  console.log(req.file)
+  // {
+  //   fieldname: 'headimg',
+  //   originalname: 'react_new.jpeg',
+  //   encoding: '7bit',
+  //   mimetype: 'image/jpeg',
+  //   destination: 'public/',
+  //   filename: '066b83be1881fada6f9b799328cf406e',
+  //   path: 'public/066b83be1881fada6f9b799328cf406e',
+  //   size: 61268
+  // }
+  var fileArr = req.file.originalname.split('.')
+  var filetype = fileArr[fileArr.length - 1]
+  try {
+    await rename(
+      './public/' + req.file.filename,
+      './public/' + req.file.filename + '.' + filetype
+    )
+    res.status(201).json({ filepath: `${req.file.filename}.${filetype}`})
+  } catch (error) {
+    res.status(500).json({ error })  
+  }
 }
 
 exports.delete = async (req, res) => {
